@@ -1,0 +1,23 @@
+{
+  "name": "adventurebot",
+  "version": "1.0.0",
+  "description": "This is a twitch bot",
+  "main": "bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iDiffusion/Adventure-Bot.git"
+  },
+  "keywords": [
+    "twitch",
+    "bot"
+  ],
+  "author": "Diffusion",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/iDiffusion/Adventure-Bot/issues"
+  },
+  "homepage": "https://github.com/iDiffusion/Adventure-Bot#readme"
+}
