@@ -38,28 +38,27 @@ client.on("chat", function (channel, userstate, message, self) {
     case "!explore":
       if(!adventureEnabled) break;
       client.whisper(userstate.username, "Lets explore");
-      break;
     break;
   }
 });
 
 // Connected to server
 client.on("connected", function (address, port) {
-  // Do your stuff.
+ console.log("Connecting to " + address + " on port " + port);
 });
 
 // Got disconnected from server
 client.on("disconnected", function (reason) {
-  // Do your stuff.
+  console.log("Diconnected from server because " + reason);
 });
 
-// Trying to reconneect to server1
+// Trying to reconneect to server
 client.on("reconnect", function () {
-  // Do your stuff.
+  console.log("Attemping to reconnect to server");
 });
 
 // Recieved a whisper
 client.on("whisper", function (from, userstate, message, self) {
   if (self) return;   // Don't listen to my own messages...
-  // Do your stuff.
+  // Handle interation.
 });
