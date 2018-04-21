@@ -1,8 +1,10 @@
 "use strict";
 
+// Import files
 var tmi = require("timi.js");
 var config = require("./config.json");
 
+// Configure the client
 var options = {
   options: {
     clientId: config.client_id
@@ -15,7 +17,7 @@ var options = {
     username: config.client_name
     password: config.client_oauth
   },
-  channels: []
+  channels: config.channels
 }
 var client = new tmi.client(options);
 
@@ -34,9 +36,7 @@ client.on("cheer", function (channel, userstate, message) {
 
 // Recieve messages on channel
 client.on("chat", function (channel, userstate, message, self) {
-  // Don't listen to my own messages..
-  if (self) return;
-
+  if (self) return;   // Don't listen to my own messages...
   // Do your stuff.
 });
 
@@ -67,13 +67,11 @@ client.on("subscription", function (channel, username, method, message, userstat
 
 // Username has been timed out on a channels
 client.on("timeout", function (channel, username, reason, duration) {
-    // Do your stuff.
+  // Do your stuff.
 });
 
 // Recieved a whisper
 client.on("whisper", function (from, userstate, message, self) {
-    // Don't listen to my own messages..
-    if (self) return;
-
-    // Do your stuff.
+  if (self) return;   // Don't listen to my own messages...
+  // Do your stuff.
 });
