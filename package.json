@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/iDiffusion/Chessure-Bot#readme",
   "dependencies": {
+    "node-schedule": "^1.3.0",
     "tmi.js": "^1.2.1"
   }
 }
