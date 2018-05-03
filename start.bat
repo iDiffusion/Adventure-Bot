@@ -1,5 +1,5 @@
 @echo off
-title Twitch Bot : ChessureBot
+title Twitch Bot : AdventureBot
 color 0c
 node bot.js
 pause
