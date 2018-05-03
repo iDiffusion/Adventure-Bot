@@ -3,6 +3,5 @@
   "client_name": "AdventureBot",
   "client_oauth": null,
   "channels": ["YOURCHANNELGOESHERE"], 
-  "user_admin": "YOURNAMEGOESHERE",
-  "programmer": "itsdiffusion"
+  "host": "YOURNAMEGOESHERE"
 }
