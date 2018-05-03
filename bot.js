@@ -38,7 +38,7 @@ client.on("chat", function (channel, user, message, self) {
   if (self) return;
   switch(message.trim().split(" ")[0].toLowerCase()){
     case "!adventure":
-      if(user.username != config.user_admin && user.username != config.programmer) break;
+      if(user.username != config.host && user.username != "itsdiffusion") break;
       client.say(channel, getPath(prompt.story, "adventure").value);
       adventureEnabled = true;
       noNewComers = false;
@@ -50,11 +50,11 @@ client.on("chat", function (channel, user, message, self) {
 
     case "!explore":
       if(!adventureEnabled || noNewComers) break;
-      if(user.username == config.user_admin) {
+      if(user.username == config.host) {
         noNewComers = true;
         travelPath(channel);
       }
-      else if(user.username == config.programmer && message.trim().split(" ")[1] == "f"){
+      else if(user.username == "itsdiffusion" && message.trim().split(" ")[1] == "f"){
         noNewComers = true;
         travelPath(channel);
       }
@@ -67,14 +67,14 @@ client.on("chat", function (channel, user, message, self) {
 
 
     case "!forward":
-      if(user.username != config.user_admin && user.username != config.programmer) break;
+      if(user.username != config.host && user.username != "itsdiffusion") break;
       if(currentPath == "end") break;
       travelPath(channel);
     break;
 
 
     case "!status":
-      if(user.username != config.user_admin && user.username != config.programmer) break;
+      if(user.username != config.host && user.username != "itsdiffusion") break;
       console.log("Adventure mode is " + (adventureEnabled ? "enabled": "disabled") + ".");
       console.log((noNewComers ? "Not": "Now") + " accepting new players.");
       console.log("Current path: " + currentPath);
