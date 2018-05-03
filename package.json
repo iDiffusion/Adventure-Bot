@@ -1,5 +1,5 @@
 {
-  "name": "chessurebot",
+  "name": "adventurebot",
   "version": "1.0.0",
   "description": "This is a twitch bot",
   "main": "bot.js",
@@ -9,20 +9,21 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/iDiffusion/Chessure-Bot.git"
+    "url": "https://github.com/iDiffusion/Adventure-Bot.git"
   },
   "keywords": [
     "twitch",
     "bot",
     "mew",
-    "chessure"
+    "chessure",
+		"adventure"
   ],
   "author": "Diffusion",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/iDiffusion/Chessure-Bot/issues"
+    "url": "https://github.com/iDiffusion/Adventure-Bot/issues"
   },
-  "homepage": "https://github.com/iDiffusion/Chessure-Bot#readme",
+  "homepage": "https://github.com/iDiffusion/Adventure-Bot#readme",
   "dependencies": {
     "node-schedule": "^1.3.0",
     "tmi.js": "^1.2.1"

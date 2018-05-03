@@ -1,7 +1,7 @@
 {
   "apps": [
     {
-      "name": "ChessureBot",
+      "name": "AdventureBot",
       "script": "./bot.js",
       "args": "--color",
       "watch": true,
