@@ -1,6 +1,8 @@
 {
   "client_id": null,
-  "client_name": "ChessureBot",
+  "client_name": "AdventureBot",
   "client_oauth": null,
-  "channels": []
+  "channels": ["YOURCHANNELGOESHERE"], 
+  "user_admin": "YOURNAMEGOESHERE",
+  "programmer": "itsdiffusion"
 }
