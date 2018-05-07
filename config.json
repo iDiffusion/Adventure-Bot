@@ -1,7 +1,6 @@
 {
-  "client_id": null,
-  "client_name": "AdventureBot",
-  "client_oauth": null,
+  "client_name": "YOURBOTBOTUSERNAMEGOESHERE",
+  "client_oauth": "YOURBOTOAUTHGOESHERE",
   "channels": ["YOURCHANNELGOESHERE"], 
   "host": "YOURNAMEGOESHERE"
 }
