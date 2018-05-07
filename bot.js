@@ -8,7 +8,7 @@ var prompt = require("./prompt.json");
 /* Configure the client */
 var options = {
   options: {
-    debug: true
+    debug: false
   },
   connections: {
     reconnect: true
@@ -159,11 +159,11 @@ function modifyKeys(channel) {
     } else {
       if (runnable == "giveKeys") {
         // TODO give keys to players (use timeout)
-        // client.say(channel, `!addpoints ${player[i].displayname} ${rand}`);
+        client.say(channel, `!addpoints ${player[i].displayname} ${rand}`);
         console.log(rand + " key fragments have been given to " + players[i].displayname);
       } else if (runnable == "takeKeys") {
         // TODO take keys to players (use timeout)
-        // client.say(channel, `!addpoints ${player[i].displayname} -${rand}`);
+        client.say(channel, `!addpoints ${player[i].displayname} -${rand}`);
         console.log(rand + " key fragments have been taken from " + players[i].displayname);
       }
     }
