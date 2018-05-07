@@ -132,7 +132,7 @@
     {
       "path": "1.3.3",
       "value": "You’ve outsmarted the Bandersnatch by hiding underneath a fallen log! You’re safe for now and you’ve made your way back to the beginning of the path!",
-      "connected": ["1"],
+      "connected": ["1", "2", "3", "4"],
       "userPick": false,
       "runnable": null,
       "required": null
@@ -140,7 +140,7 @@
     {
       "path": "1.3.4",
       "value": "You’ve outsmarted the Bandersnatch by hiding underneath a fallen log! You’re safe for now and you’ve made your way back to the beginning of the path!",
-      "connected": ["1"],
+      "connected": ["1", "2", "3", "4"],
       "userPick": false,
       "runnable": null,
       "required": "book"
@@ -197,7 +197,7 @@
     {
       "path": "1.5.1.1",
       "value": "You’re too puzzled to figure out the riddle so he asks you to leave and you end up wandering back to TheCheshireKat",
-      "connected": ["1"],
+      "connected": ["1", "2", "3", "4"],
       "userPick": false,
       "runnable": null,
       "required": null
