@@ -6,11 +6,13 @@ This bot requires a folder that isn't present, `node_modules`. The `node_modules
 
 ## Installation instructions (easy way)
 Keep in mind that this process requires you to have [Git](https://git-scm.com/).
+
 In a command line of your choice, enter the following commands:
 - `git clone https://github.com/iDiffusion/Adventure-Bot/` to download the project
 - `cd Adventure-Bot` to open the new project directory made by GitHub
 - `npm install tmi.js --save` to install its dependencies
-- `npm install pm2 -g` to install pm2 (allows user to run bot in the background)
+- `npm install pm2 -g` to install pm2, if you would like to run bot in the background.
+
 Make sure to edit the `config.json` file before running the bot, it will not work unedited.
 
 ## Installation instructions (hard way)
