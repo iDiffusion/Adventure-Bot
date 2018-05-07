@@ -36,3 +36,55 @@ Before running the bot make sure that `config.js` has been setup properly, [node
 
 -   To run `start.bat` click the executable file.
 -   To run `startPM2.bad` make sure that [pm2](http://pm2.keymetrics.io/) is installed then click the executable file.
+
+## Prompt.json file
+
+The `prompt.json` file is formatted to make changing or adding to the story a breeze.
+
+First there is one variable within the file called story which contains an array of elements (parts of the story).
+
+The first few elements are `adventure`, `explore`, and the totems (currently book, knife, and locket); then it is followed by the story.
+
+Each element in story contains a `path` (path name), `value` (string to printed), `connected` (list of the next linked paths/choices), `userPick` (whether or not to stop and allow users to vote), `runnable` (which function to run when the path in called, ie giveKeys), and `required` (the name of the totem required if one is needed). For example:
+```
+  {
+    "path": "1",
+    "value": "You have been lead to a fork in the road, do you take the !left or !right path?",
+    "connected": ["left", "right"],
+    "userPick": true,
+    "runnable": null,
+    "required": null
+  }
+
+```
+
+The only one that looks different is `explore` which contains an array of totems labeled `totems`:
+```
+  {
+   "path": "explore",
+   "value": "On the path before you lies a !Locket, !Book, and !ButterKnife; which one do you carry with you on your journey, $user?",
+   "totems": ["book", "locket", "butterknife"],
+   "connected": ["1", "2", "3", "4"],
+   "userPick": false,
+   "runnable": null,
+   "required": null
+  }
+```
+
+And each totem:
+```
+  {
+    "path": "butterknife",
+    "value": "You have chosen to carry the Butter Knife"
+  },
+  {
+    "path": "locket",
+    "value": "You have chosen to carry the Locket"
+  },
+  {
+    "path": "book",
+    "value": "You have chosen to carry the Book"
+  }
+````
+
+If you have any questions please feel free to ask.

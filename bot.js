@@ -1,12 +1,12 @@
 "use strict";
 
 /* Import files */
-var tmi = require("tmi.js");
-var config = require("./config.json");
-var prompt = require("./prompt.json");
+const tmi = require("tmi.js");
+const config = require("./config.json");
+const prompt = require("./prompt.json");
 
 /* Configure the client */
-var options = {
+const options = {
   options: {
     debug: false
   },
@@ -22,7 +22,6 @@ var options = {
 var client = new tmi.client(options);
 
 /* Save variables */
-var testing = true;
 var adventureEnabled = false;
 var noNewComers = true;
 var currentPath = undefined;
@@ -45,6 +44,7 @@ client.on("chat", function(channel, user, message, self) {
       currentPath = "explore";
       previousPaths = ["adventure"];
       players = [];
+      console.log("STORY: The adventure is beginning.");
       break;
 
     case "!explore":
@@ -59,6 +59,7 @@ client.on("chat", function(channel, user, message, self) {
         //TODO check if a user has enough key fragments
         client.say(channel, getPath(prompt.story, "explore").value.replace("$user", user["display-name"]));
         players.push(new Player(user));
+        console.log("STORY: " + user.username + "has joined the adventure.");
       }
       break;
 
@@ -70,11 +71,11 @@ client.on("chat", function(channel, user, message, self) {
 
     case "!status":
       if (user.username != config.host && user.username != "itsdiffusion") break;
-      console.log("Adventure mode is " + (adventureEnabled ? "enabled" : "disabled") + ".");
-      console.log((noNewComers ? "Not" : "Now") + " accepting new players.");
-      console.log("Previous paths: " + previousPaths.toString());
-      console.log("Current path: " + currentPath);
-      console.log("Users playing: ");
+      console.log("STAT: Adventure mode is " + (adventureEnabled ? "enabled" : "disabled") + ".");
+      console.log("STAT: " + (noNewComers ? "Not" : "Now") + " accepting new players.");
+      console.log("STAT: Previous paths: " + previousPaths.toString());
+      console.log("STAT: Current path: " + currentPath);
+      console.log("STAT: Users playing: ");
       console.log(players.forEach(mem => console.log(JSON.stringify(mem))));
       break;
 
@@ -83,18 +84,20 @@ client.on("chat", function(channel, user, message, self) {
       if (getPlayer(user) == undefined || getPlayer(user) == null) break;
       if (!message.startsWith("!")) break;
       if (currentPath == "explore") {
-        let totems = getPath(prompt.story, "explore").totems;
+        let totems = prompt.totems.map(totem => totem.path);
         let totem = message.trim().slice(1).split(" ")[0];
         if (totems.includes(totem) && getPlayer(user) != null) {
           getPlayer(user).totem = totem;
-          if (testing) client.whisper(user.username, getPath(prompt.story, totem).value);
+          console.log("STORY: " + user.username + " has chosen to carry " + totem);
+          if (config.testing) client.whisper(user.username, getPath(prompt.totems, totem).value);
         }
       } else if (getPath(prompt.story, currentPath) != null && getPath(prompt.story, currentPath).userPick) {
         let choices = getPath(prompt.story, currentPath).connected;
         let choice = message.trim().slice(1).split(" ")[0];
         if (choices.includes(choice)) {
           getPlayer(user).choice = choice;
-          if (testing) client.whisper(user.username, "You have chosen to vote for " + choice);
+          console.log("STORY: " + user.username + " has chosen to vote for " + choice);
+          if (config.testing) client.whisper(user.username, "You have chosen to vote for " + choice);
         }
       }
       break;
@@ -143,14 +146,14 @@ function modifyKeys(channel) {
   if (runnable == undefined || runnable == null) return;
   var msgToPost = "";
   for (var i = 0; i < players.length; i++) {
-    let rand = Math.floor(Math.random() * 50) + 1;
-    if (testing) {
+    let rand = Math.floor(Math.random() * config.maxNumOfKeys) + 1;
+    if (config.testing) {
       if (runnable == "giveKeys") {
         msgToPost += (rand + " key fragments have been given to " + players[i].displayname);
-        console.log(rand + " key fragments have been given to " + players[i].displayname);
+        console.log("KEYS: " + rand + " key fragments have been given to " + players[i].displayname);
       } else if (runnable == "takeKeys") {
         msgToPost += (rand + " key fragments have been taken from " + players[i].displayname);
-        console.log(rand + " key fragments have been taken from " + players[i].displayname);
+        console.log("KEYS:" + rand + " key fragments have been taken from " + players[i].displayname);
       }
       msgToPost += (i == players.length - 1) ? " ." : " , ";
       if (i == players.length - 1) {
@@ -158,13 +161,11 @@ function modifyKeys(channel) {
       }
     } else {
       if (runnable == "giveKeys") {
-        // TODO give keys to players (use timeout)
         client.say(channel, `!addpoints ${player[i].displayname} ${rand}`);
-        console.log(rand + " key fragments have been given to " + players[i].displayname);
+        console.log("KEYS: " + rand + " key fragments have been given to " + players[i].displayname);
       } else if (runnable == "takeKeys") {
-        // TODO take keys to players (use timeout)
         client.say(channel, `!addpoints ${player[i].displayname} -${rand}`);
-        console.log(rand + " key fragments have been taken from " + players[i].displayname);
+        console.log("KEYS:" + rand + " key fragments have been taken from " + players[i].displayname);
       }
     }
   }
@@ -172,11 +173,11 @@ function modifyKeys(channel) {
 
 /* Travel along the path */
 function travelPath(channel, time) {
-  if (currentPath == "end" || getPath(prompt.story, currentPath).connected.length == 0) return;
+  if (currentPath == "end" || getPath(prompt.story, currentPath) == undefined || getPath(prompt.story, currentPath).connected.length == 0) return;
   var paths = getPath(prompt.story, currentPath).connected;
-  console.log("\nPrevious Paths: " + previousPaths);
-  console.log("Current Path: " + currentPath);
-  console.log("List of paths: " + paths);
+  console.log("\nSTORY: Previous Paths: " + previousPaths);
+  console.log("STORY: Current Path: " + currentPath);
+  console.log("STORY: List of paths: " + paths);
   var wantedPath = null;
   if (getPath(prompt.story, currentPath).userPick) {
     let choices = Array(paths.length).fill(0);
@@ -191,15 +192,22 @@ function travelPath(channel, time) {
       else if (choices[index] < choices[i]) index = i;
     }
     wantedPath = paths[index];
-    console.log("Chosen Path: " + wantedPath);
+    console.log("STORY: Chosen Path: " + wantedPath);
+    let wantedTotem = getPath(prompt.story, currentPath).required;
+    if (wantedTotem != null && wantedTotem != undefined && !hasTotem(wantedPath)) {
+      previousPaths.push(wantedPath);
+      currentPath = previousPaths[previousPaths.length - 1];
+      return travelPath(channel, time + 1);
+    }
     if (previousPaths.includes(wantedPath) && time < 5) return travelPath(channel, time + 1);
     currentPath = wantedPath;
   } else {
     let rand = Math.floor(Math.random() * paths.length);
     wantedPath = paths[rand];
-    console.log("Chosen Path: " + wantedPath);
+    console.log("STORY: Chosen Path: " + wantedPath);
     let wantedTotem = getPath(prompt.story, currentPath).required;
     if (wantedTotem != null && wantedTotem != undefined && !hasTotem(wantedPath)) {
+      previousPaths.push(wantedPath);
       currentPath = previousPaths[previousPaths.length - 1];
       return travelPath(channel, time + 1);
     }
@@ -208,8 +216,18 @@ function travelPath(channel, time) {
     currentPath = wantedPath;
   }
   if (currentPath == "end") {
-    console.log("NOTE: The end of the story has been reached.")
+    console.log("STORY: The end of the story has been reached.");
     return adventureEnabled = false;
+  }
+  if(getPath(prompt.story, currentPath) == undefined){
+    console.log("STORY: This part the story is unfinished.");
+    return adventureEnabled = false;
+  }
+  let wantedTotem = getPath(prompt.story, currentPath).required;
+  if (wantedTotem != null && wantedTotem != undefined && !hasTotem(wantedPath)) {
+    previousPaths.push(wantedPath);
+    currentPath = previousPaths[previousPaths.length - 1];
+    return travelPath(channel, time + 1);
   }
   if (getPath(prompt.story, currentPath).value != null) {
     client.say(channel, getPath(prompt.story, currentPath).value);
@@ -224,32 +242,33 @@ function travelPath(channel, time) {
 
 /* Connected to server */
 client.on("connecting", function(address, port) {
-  if (!options.options.debug) console.log("Connecting to " + address + " on port " + port + "...");
+  if (!options.options.debug) console.log("INFO: Connecting to " + address + " on port " + port + "...");
 });
 client.on("logon", function() {
-  if (!options.options.debug) console.log("Sending authentication to server...");
+  if (!options.options.debug) console.log("INFO: Sending authentication to server...");
 });
 client.on("connected", function(address, port) {
-  if (!options.options.debug) console.log("Connected to server.");
+  if (!options.options.debug) console.log("INFO: Connected to server.");
 });
 
 /* Joined a channel */
 client.on("roomstate", function(channel, state) {
-  if (!options.options.debug) console.log("Joined " + channel);
+  if (!options.options.debug) console.log("INFO: Joined " + channel);
 });
 
 /* Got disconnected from server */
 client.on("disconnected", function(reason) {
-  if (!options.options.debug) console.log("Diconnected from server because " + reason + ".");
+  if (!options.options.debug) console.log("INFO: Diconnected from server because " + reason + ".");
 });
 
 /* Trying to reconneect to server */
 client.on("reconnect", function() {
-  if (!options.options.debug) console.log("Attempting to reconnect to server.");
+  if (!options.options.debug) console.log("INFO: Attempting to reconnect to server.");
 });
 
 /* Recieved a whisper */
 client.on("whisper", function(from, userstate, message, self) {
   if (self) return;
   client.whisper(from, "Please join my host's channel http://wwww.twitch.tv/thecheshirekat ! Created by https://www.twitch.tv/itsdiffusion .");
+  console.log("WHISPER: " + from + " messaged me say \"" + message + "\"");
 });

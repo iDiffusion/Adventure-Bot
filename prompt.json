@@ -1,4 +1,19 @@
 {
+  "totems": [
+    {
+      "path": "butterknife",
+      "value": "You have chosen to carry the Butter Knife"
+    },
+    {
+      "path": "locket",
+      "value": "You have chosen to carry the Locket"
+    },
+    {
+      "path": "book",
+      "value": "You have chosen to carry the Book"
+    }
+  ],
+
   "story": [{
       "path": "adventure",
       "value": "TheCheshireKat appears to you and asks if you'd like to go on an adventure: type !explore to see where she'll lead you.",
@@ -10,33 +25,8 @@
     {
       "path": "explore",
       "value": "On the path before you lies a !Locket, !Book, and !ButterKnife; which one do you carry with you on your journey, $user?",
-      "totems": ["book", "locket", "butterknife"],
-      "connected": ["1"],
+      "connected": ["1", "2", "3", "4"],
       "userPick": false,
-      "runnable": null,
-      "required": null
-    },
-    {
-      "path": "butterknife",
-      "value": "You have chosen to carry the Butter Knife",
-      "connected": ["1"],
-      "userPick": true,
-      "runnable": null,
-      "required": null
-    },
-    {
-      "path": "locket",
-      "value": "You have chosen to carry the Locket",
-      "connected": ["1"],
-      "userPick": true,
-      "runnable": null,
-      "required": null
-    },
-    {
-      "path": "book",
-      "value": "You have chosen to carry the Book",
-      "connected": ["1"],
-      "userPick": true,
       "runnable": null,
       "required": null
     },
@@ -83,7 +73,7 @@
     {
       "path": "1.1.3",
       "value": "As you walk down the left pathway it starts to get darker and more confusing, but you were smart enough to leave a trail of mushrooms to guide your way back to TheCheshireKat!",
-      "connected": ["1"],
+      "connected": ["1", "2", "3", "4"],
       "userPick": false,
       "runnable": null,
       "required": "book"
@@ -164,9 +154,6 @@
       "required": null,
       "extraIf": "locket"
     },
-
-
-
     {
       "path": "1.4",
       "value": "",
