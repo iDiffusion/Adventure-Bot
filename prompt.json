@@ -31,7 +31,7 @@
     {"path": "1.3.1", "value": "Congratulations! You’ve won the fight against the Bandersnatch! You trade his left eye for some key fragments in town! Well fought, adventurer!",
       "connected": ["end"], "userPick": false, "runnable": "giveKeys", "required": null, "extraIf": "butterknife"},
     {"path": "1.3.2", "value": "Oh no!! You’ve lost to the Bandersnatch! He left a gash on your arm and you have to give up some key fragments to a healer in town! Hope the wound heals in time for our next adventure!",
-      "connected": ["end"], "userPick": false, "runnable": "giveKeys", "required": null, "extraIf": "locket"},
+      "connected": ["end"], "userPick": false, "runnable": "takeKeys", "required": null, "extraIf": "locket"},
     {"path": "run", "value": null,
       "connected": ["1.3.3", "1.3.4", "1.3.5"], "userPick": false, "runnable": null, "required": null},
     {"path": "1.3.3", "value": "You’ve outsmarted the Bandersnatch by hiding underneath a fallen log! You’re safe for now and you’ve made your way back to the beginning of the path!",
