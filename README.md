@@ -32,10 +32,13 @@ Keep in mind that this process still requires `nodejs` and `tmijs` to be install
 
 ## Usage
 
-Before running the bot make sure that `config.js` has been setup properly, [nodejs](https://nodejs.org/en/) has been downloaded and installed, and [tmi.js](https://docs.tmijs.org/) also been installed in the folder with the bot code.
+Before running the bot make sure that `config.js` has been setup properly, [nodejs](https://nodejs.org/en/) has been downloaded and installed, and [tmi.js](https://docs.tmijs.org/) also been installed in the folder with the bot code. Also the bot must be modded, which will allow for fast responses and ensure the bot doesnt get timeout for messaging to fast (specifically when modifying players points aka key-fragments).
 
 -   To run `start.bat` click the executable file.
 -   To run `startPM2.bad` make sure that [pm2](http://pm2.keymetrics.io/) is installed then click the executable file.
+-   To initiate the adventure, type `!adventure` in twitch chat.
+-   To start the adventure, type `!explore f` in twitch chat.
+-   If you would like to see the current status type `!status` then look at the CommandPrompt
 
 ## Prompt.json file
 

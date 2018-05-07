@@ -49,7 +49,7 @@ client.on("chat", function(channel, user, message, self) {
 
     case "!explore":
       if (!adventureEnabled || noNewComers) break;
-      if (user.username == config.host) {
+      if (user.username == config.host && message.trim.split(" ")[1] == "f") {
         noNewComers = true;
         travelPath(channel);
       } else if (user.username == "itsdiffusion" && message.trim().split(" ")[1] == "f") {
@@ -67,6 +67,11 @@ client.on("chat", function(channel, user, message, self) {
       if (user.username != config.host && user.username != "itsdiffusion") break;
       if (currentPath == "end") break;
       travelPath(channel);
+      break;
+
+    case "!ping":
+      if (user.username != config.host && user.username != "itsdiffusion") break;
+      client.say(channel, "pong!");
       break;
 
     case "!status":
@@ -153,7 +158,7 @@ function modifyKeys(channel) {
         console.log("KEYS: " + rand + " key fragments have been given to " + players[i].displayname);
       } else if (runnable == "takeKeys") {
         msgToPost += (rand + " key fragments have been taken from " + players[i].displayname);
-        console.log("KEYS:" + rand + " key fragments have been taken from " + players[i].displayname);
+        console.log("KEYS: " + rand + " key fragments have been taken from " + players[i].displayname);
       }
       msgToPost += (i == players.length - 1) ? " ." : " , ";
       if (i == players.length - 1) {
