@@ -223,22 +223,33 @@ function travelPath(channel, time) {
 }
 
 /* Connected to server */
+client.on("connecting", function(address, port) {
+  if (!options.options.debug) console.log("Connecting to " + address + " on port " + port + "...");
+});
+client.on("logon", function() {
+  if (!options.options.debug) console.log("Sending authentication to server...");
+});
 client.on("connected", function(address, port) {
-  console.log("Connecting to " + address + " on port " + port + "!");
+  if (!options.options.debug) console.log("Connected to server.");
+});
+
+/* Joined a channel */
+client.on("roomstate", function(channel, state) {
+  if (!options.options.debug) console.log("Joined " + channel);
 });
 
 /* Got disconnected from server */
 client.on("disconnected", function(reason) {
-  console.log("Diconnected from server because " + reason + ".");
+  if (!options.options.debug) console.log("Diconnected from server because " + reason + ".");
 });
 
 /* Trying to reconneect to server */
 client.on("reconnect", function() {
-  console.log("Attemping to reconnect to server.");
+  if (!options.options.debug) console.log("Attempting to reconnect to server.");
 });
 
 /* Recieved a whisper */
 client.on("whisper", function(from, userstate, message, self) {
-  if (self) return; // Don't listen to my own messages...
-  client.whisper(userstate.username, "Please join my host's channel http://wwww.twitch.tv/thecheshirekat !");
+  if (self) return;
+  client.whisper(from, "Please join my host's channel http://wwww.twitch.tv/thecheshirekat ! Created by https://www.twitch.tv/itsdiffusion .");
 });
