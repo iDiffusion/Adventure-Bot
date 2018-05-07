@@ -41,11 +41,9 @@ Before running the bot make sure that `config.js` has been setup properly, [node
 
 The `prompt.json` file is formatted to make changing or adding to the story a breeze.
 
-First there is one variable within the file called story which contains an array of elements (parts of the story).
+First there are two variable within the file, one called `totems` which contain and array of totems, and the other `story` which contains an array of elements (parts of the story). The first few elements in story are `adventure`, and `explore`, followed by the story.
 
-The first few elements are `adventure`, `explore`, and the totems (currently book, knife, and locket); then it is followed by the story.
-
-Each element in story contains a `path` (path name), `value` (string to printed), `connected` (list of the next linked paths/choices), `userPick` (whether or not to stop and allow users to vote), `runnable` (which function to run when the path in called, ie giveKeys), and `required` (the name of the totem required if one is needed). For example:
+Each element in story contains a `path` (path name), `value` (string to printed), `connected` (list of the next linked paths/choices), `userPick` (whether or not to stop and allow users to vote), `runnable` (which function to run when the path in called, ie. giveKeys), and `required` (the name of the totem required if one is needed). For example:
 ```
   {
     "path": "1",
@@ -58,20 +56,7 @@ Each element in story contains a `path` (path name), `value` (string to printed)
 
 ```
 
-The only one that looks different is `explore` which contains an array of totems labeled `totems`:
-```
-  {
-   "path": "explore",
-   "value": "On the path before you lies a !Locket, !Book, and !ButterKnife; which one do you carry with you on your journey, $user?",
-   "totems": ["book", "locket", "butterknife"],
-   "connected": ["1", "2", "3", "4"],
-   "userPick": false,
-   "runnable": null,
-   "required": null
-  }
-```
-
-And each totem:
+Each element in totems contains a `path` (name of the totem), and `value` (what is whisper to them when testing is enabled):
 ```
   {
     "path": "butterknife",
@@ -87,4 +72,4 @@ And each totem:
   }
 ````
 
-If you have any questions please feel free to ask.
+The bot will work with an unfinished story, but will not continue if it takes a path that is unfinished. If you have any questions please feel free to ask.
