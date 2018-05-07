@@ -146,7 +146,7 @@ function modifyKeys(channel) {
   if (runnable == undefined || runnable == null) return;
   var msgToPost = "";
   for (var i = 0; i < players.length; i++) {
-    let rand = Math.floor(Math.random() * config.maxNumOfKeys) + 1;
+    let rand = Math.floor(Math.random() * config.requiredNumOfKeys) + 1;
     if (config.testing) {
       if (runnable == "giveKeys") {
         msgToPost += (rand + " key fragments have been given to " + players[i].displayname);
@@ -195,23 +195,22 @@ function travelPath(channel, time) {
     console.log("STORY: Chosen Path: " + wantedPath);
     let wantedTotem = getPath(prompt.story, currentPath).required;
     if (wantedTotem != null && wantedTotem != undefined && !hasTotem(wantedPath)) {
-      previousPaths.push(wantedPath);
       currentPath = previousPaths[previousPaths.length - 1];
       return travelPath(channel, time + 1);
     }
     if (previousPaths.includes(wantedPath) && time < 5) return travelPath(channel, time + 1);
+    previousPaths.push(currentPath);
     currentPath = wantedPath;
   } else {
     let rand = Math.floor(Math.random() * paths.length);
     wantedPath = paths[rand];
     console.log("STORY: Chosen Path: " + wantedPath);
     let wantedTotem = getPath(prompt.story, currentPath).required;
-    if (wantedTotem != null && wantedTotem != undefined && !hasTotem(wantedPath)) {
-      previousPaths.push(wantedPath);
-      currentPath = previousPaths[previousPaths.length - 1];
+    if (wantedTotem != null && wantedTotem != undefined && !hasTotem(wantedPath) && !hasTotem(currentPath)) {
+      currentPath = time < 5 ? previousPaths[previousPaths.length - 1] : previousPaths[previousPaths.length - 2];
       return travelPath(channel, time + 1);
     }
-    if (previousPaths.includes(wantedPath) && time < 5 && !previousPaths.includes("end")) return travelPath(channel, time + 1);
+    if (previousPaths.includes(wantedPath) && time < 5) return travelPath(channel, time + 1);
     previousPaths.push(currentPath);
     currentPath = wantedPath;
   }
@@ -219,7 +218,7 @@ function travelPath(channel, time) {
     console.log("STORY: The end of the story has been reached.");
     return adventureEnabled = false;
   }
-  if(getPath(prompt.story, currentPath) == undefined){
+  if (getPath(prompt.story, currentPath) == undefined) {
     console.log("STORY: This part the story is unfinished.");
     return adventureEnabled = false;
   }
