@@ -146,32 +146,40 @@ function hasTotem(totem) {
 }
 
 /* Give or take keys */
-function modifyKeys(channel) {
+function executeRunnable(channel) {
   var runnable = getPath(prompt.story, currentPath).runnable;
   if (runnable == undefined || runnable == null) return;
   var msgToPost = "";
   for (var i = 0; i < players.length; i++) {
     let rand = Math.floor(Math.random() * config.requiredNumOfKeys) + 1;
-    if (config.testing) {
-      if (runnable == "giveKeys") {
-        msgToPost += (rand + " key fragments have been given to " + players[i].displayname);
-        console.log("KEYS: " + rand + " key fragments have been given to " + players[i].displayname);
-      } else if (runnable == "takeKeys") {
-        msgToPost += (rand + " key fragments have been taken from " + players[i].displayname);
-        console.log("KEYS: " + rand + " key fragments have been taken from " + players[i].displayname);
-      }
-      msgToPost += (i == players.length - 1) ? " ." : " , ";
-      if (i == players.length - 1) {
-        client.say(channel, msgToPost);
-      }
-    } else {
-      if (runnable == "giveKeys") {
-        client.say(channel, `!addpoints ${player[i].displayname} ${rand}`);
-        console.log("KEYS: " + rand + " key fragments have been given to " + players[i].displayname);
-      } else if (runnable == "takeKeys") {
-        client.say(channel, `!addpoints ${player[i].displayname} -${rand}`);
-        console.log("KEYS:" + rand + " key fragments have been taken from " + players[i].displayname);
-      }
+    switch (runnable) {
+      case "giveKeys":
+        if (config.testing) {
+          msgToPost += (rand + " key fragments have been given to " + players[i].displayname);
+          msgToPost += (i == players.length - 1) ? " ." : " , ";
+          if (i == players.length - 1) {
+            client.say(channel, msgToPost);
+          }
+        } else {
+          client.say(channel, `!addpoints ${player[i].displayname} ${rand}`);
+        }
+        console.log("EXEC: " + rand + " key fragments have been given to " + players[i].displayname);
+        break;
+      case "takeKeys":
+        if (config.testing) {
+          msgToPost += (rand + " key fragments have been taken from " + players[i].displayname);
+          msgToPost += (i == players.length - 1) ? " ." : " , ";
+          if (i == players.length - 1) {
+            client.say(channel, msgToPost);
+          }
+        } else {
+          client.say(channel, `!addpoints -${player[i].displayname} ${rand}`);
+        }
+        console.log("EXEC: " + rand + " key fragments have been taken from " + players[i].displayname);
+        break;
+      default:
+        console.log("EXEC: " + "Unrecognized runnable \"" + runnable + "\".");
+        break;
     }
   }
 }
@@ -199,7 +207,7 @@ function travelPath(channel, time) {
     wantedPath = paths[index];
     console.log("STORY: Chosen Path: " + wantedPath);
     let wantedTotem = getPath(prompt.story, currentPath).required;
-    if (wantedTotem != null && wantedTotem != undefined && !hasTotem(wantedPath)) {
+    if (wantedTotem != null && wantedTotem != undefined && !hasTotem(wantedTotem)) {
       currentPath = previousPaths[previousPaths.length - 1];
       return travelPath(channel, time + 1);
     }
@@ -211,7 +219,7 @@ function travelPath(channel, time) {
     wantedPath = paths[rand];
     console.log("STORY: Chosen Path: " + wantedPath);
     let wantedTotem = getPath(prompt.story, currentPath).required;
-    if (wantedTotem != null && wantedTotem != undefined && !hasTotem(wantedPath) && !hasTotem(currentPath)) {
+    if (wantedTotem != null && wantedTotem != undefined && !hasTotem(wantedTotem) && !hasTotem(getPath(prompt.story, currentPath).required)) {
       currentPath = time < 5 ? previousPaths[previousPaths.length - 1] : previousPaths[previousPaths.length - 2];
       return travelPath(channel, time + 1);
     }
@@ -228,7 +236,7 @@ function travelPath(channel, time) {
     return adventureEnabled = false;
   }
   let wantedTotem = getPath(prompt.story, currentPath).required;
-  if (wantedTotem != null && wantedTotem != undefined && !hasTotem(wantedPath)) {
+  if (wantedTotem != null && wantedTotem != undefined && !hasTotem(wantedTotem)) {
     previousPaths.push(wantedPath);
     currentPath = previousPaths[previousPaths.length - 1];
     return travelPath(channel, time + 1);
@@ -236,7 +244,7 @@ function travelPath(channel, time) {
   if (getPath(prompt.story, currentPath).value != null) {
     client.say(channel, getPath(prompt.story, currentPath).value);
   }
-  modifyKeys(channel);
+  executeRunnable(channel);
   if (!getPath(prompt.story, currentPath).userPick) {
     return travelPath(channel, 0);
   } else {
